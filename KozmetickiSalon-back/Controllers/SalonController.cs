@@ -136,6 +136,7 @@ namespace KozmetickiSalon_back.Controllers
         [HttpDelete]
         public async Task IzbrisiSalon(int id)
         {
+        
            var niztermina=Context.Termini.Where(s=>s.Salon.ID==id);
             await niztermina.ForEachAsync(s=>{
                 Context.Remove(s);

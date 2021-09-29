@@ -142,7 +142,7 @@ fetch("https://localhost:5001/Salon/UpisiSmenu/"+id,{
         broj:j+1,
     })
 });
-location.reload();
+//location.reload();
 }
 
 
