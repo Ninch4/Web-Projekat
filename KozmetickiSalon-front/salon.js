@@ -9,7 +9,7 @@ export class Salon{
         this.naziv=naziv;
         this.ukupnoTermina=ukupnoTermina;
         this.kapacitetTermina=kapacitetTermina;
-        this.uSmeni=uSmeni
+        this.uSmeni=uSmeni;
         //this.cena=cena;
         this.kontejner =null;
         this.kontejner2=null;
@@ -163,14 +163,15 @@ export class Salon{
         elLabela1=document.createElement("label");
         elLabela1.innerHTML="Mesto po rasporedu:";
         divU.appendChild(elLabela1);
+        let opcijasmena=null;
         let unos2 = document.createElement("select");
         divU.appendChild(unos2);
         for(let i=0;i<this.uSmeni;i++)
-        {
-            opcija = document.createElement("option");
-            opcija.innerHTML=i+1;
-            opcija.value=i+1;
-            unos2.appendChild(opcija);
+        {   
+            opcijasmena = document.createElement("option");
+            opcijasmena.innerHTML=i+1;
+            opcijasmena.value=i+1;
+            unos2.appendChild(opcijasmena);
         }
         kont2.appendChild(divU);
 
@@ -185,8 +186,8 @@ export class Salon{
             
             let brSmene=parseInt(unos.value);
             let mesto=parseInt(unos2.value);
+            console.log(mesto);
             let upit=this.smene.find(s=> s.radnik==radnik)
-            console.log(upit);
             if(upit)
             alert ("Radniku je vec dodeljena smena");
 
@@ -555,170 +556,6 @@ export class Salon{
                         termin1.azurirajTermin(termin.musterije,termin.tipusluge,termin.vremetermina);
                     })
                 })
-            });
-    }
-
-    crtajFormuSmena(host)
-    {
-        const kont2 = document.createElement("div");
-        kont2.className="formasmena";
-        host.appendChild(kont2);
-
-        let divU=document.createElement("div");
-        let elLabela1=document.createElement("h3");
-        elLabela1.innerHTML="Raspored zaposlenih";
-        divU.appendChild(elLabela1);
-        kont2.appendChild(divU);
-
-        elLabela1=document.createElement("label");
-        elLabela1.innerHTML="Ime zaposlenog:";
-        kont2.appendChild(elLabela1);
-
-        let unos = document.createElement("input");
-        unos.className="ime";
-        kont2.appendChild(unos);
-
-        elLabela1=document.createElement("label");
-        elLabela1.innerHTML="Prezime zaposlenog:";
-        kont2.appendChild(elLabela1);
-
-        unos = document.createElement("input");
-        unos.className="prezime";
-        kont2.appendChild(unos);
-
-        elLabela1=document.createElement("br");
-        kont2.appendChild(elLabela1);
-
-        const dugme=document.createElement("button");
-        dugme.innerHTML="Zaposlite radnika";
-        kont2.appendChild(dugme);
-        
-        dugme.onclick=(ev)=>{
-    
-            let ime=this.kontejner2.querySelector(".ime").value;
-            let prezime=this.kontejner2.querySelector(".prezime").value;
-            console.log(ime);
-            console.log(prezime);
-            //if(ime.value ==null || prezime.value ==null)
-            //alert("Greška!");
-            fetch("https://localhost:5001/Salon/UpisiZaposlenog/"+this.id,{
-            method:"POST",
-             headers:{
-                "Content-Type":"application/json"
-                },
-                body: JSON.stringify({
-                ime:ime,
-                prezime:prezime
-            })
-            }).then(p=>{
-                if(p.ok)
-                {
-                    alert("Dodali ste novog zaposlenog")
-                    location.reload();
-                }
-                //else 
-                //alert("Greška!")
-            });
-        }
-
-        elLabela1=document.createElement("br");
-        kont2.appendChild(elLabela1);
-        elLabela1=document.createElement("br");
-        kont2.appendChild(elLabela1);
-
-        elLabela1=document.createElement("label");
-        elLabela1.innerHTML="Izabrati zaposlenog za smenu:";
-        kont2.appendChild(elLabela1);
-        divU = document.createElement("div");
-        divU.className="radnikk";
-        kont2.appendChild(divU);
-        elLabela1=document.createElement("br");
-        kont2.appendChild(elLabela1);
-        let opcija=null;
-        
-        divU=document.createElement("div");
-        elLabela1=document.createElement("label");
-        elLabela1.innerHTML="Broj smene:";
-        divU.appendChild(elLabela1);
-        unos = document.createElement("select");
-        divU.appendChild(unos);
-        for(let i=0;i<2;i++)
-        {
-            opcija=document.createElement("option");
-            opcija.innerHTML=i+1;
-            opcija.value=i+1;
-            unos.appendChild(opcija);
-        }
-        kont2.appendChild(divU);
-
-        elLabela1=document.createElement("br");
-        kont2.appendChild(elLabela1);
-        divU=document.createElement("div");
-        elLabela1=document.createElement("label");
-        elLabela1.innerHTML="Mesto po rasporedu:";
-        divU.appendChild(elLabela1);
-        let unos2 = document.createElement("select");
-        divU.appendChild(unos2);
-        for(let i=0;i<this.uSmeni;i++)
-        {
-            opcija = document.createElement("option");
-            opcija.innerHTML=i+1;
-            opcija.value=i+1;
-            unos2.appendChild(opcija);
-        }
-        kont2.appendChild(divU);
-
-        elLabela1=document.createElement("br");
-        kont2.appendChild(elLabela1);
-
-        const dugme2=document.createElement("button");
-        dugme2.innerHTML="Rasporediti";
-        kont2.appendChild(dugme2);
-        dugme2.onclick=(ev)=>{
-            let radnik=this.kontejner2.querySelector(".izabrani:checked").value;
-            
-            let brSmene=parseInt(unos.value);
-            let mesto=parseInt(unos2.value);
-            let upit=this.smene.find(s=> s.radnik==radnik)
-            console.log(upit);
-            if(upit)
-            alert ("Radniku je vec dodeljena smena");
-
-            let novesmene=this.smene.filter(smena=>smena.broj==mesto);
-            novesmene.forEach(smena => {
-                
-            fetch("https://localhost:5001/Salon/IzmeniSmenu",{
-                method:"PUT",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
-                    id:smena.id,
-                    brojSmene:brSmene,
-                    broj:mesto,
-                    radnik:radnik,
-                })
-            });
-        });
-        this.smene[mesto-1].azurirajSmenu(radnik,brSmene);
-    
-    }
-}
-    crtajSmene(host)
-    {
-        const kontSmene=document.createElement("div");
-        kontSmene.className="kontSmene";
-        host.appendChild(kontSmene);
-        fetch("https://localhost:5001/Salon/PreuzmiSmene/"+this.id).then(p=>{
-                p.json().then(data=>{
-                    data.forEach(smena=>{
-                        let smena1=new Smena(smena.id,smena.brojSmene,smena.broj);
-                        this.dodajSmenu(smena1);
-                        smena1.crtajSmenu(kontSmene);
-                        if(smena.radnik!=null)
-                        smena1.azurirajSmenu(smena.radnik,smena.brojSmene);
-                    });
-                });
             });
     }
     crtajZaposlene()

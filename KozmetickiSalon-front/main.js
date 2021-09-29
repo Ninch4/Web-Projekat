@@ -89,6 +89,8 @@ kontejner1.appendChild(label);
 
 label = document.createElement("label");
 label.innerHTML="Uneti ID salona koji se iscrtava";
+//label.innerHTML="Uneti ID salona koji se iscrtava";
+
 kontejner1.appendChild(label);
 
 label=document.createElement("br");
@@ -179,7 +181,7 @@ crtaj.onclick=(ev)=>
 fetch("https://localhost:5001/Salon/PreuzmiSalone").then(p=>{
     p.json().then(data=>{
         data.forEach(salon => {
-           const salon1=new Salon(salon.id,salon.naziv,salon.ukupnoTermina,salon.pocetakrada,salon.krajrada,salon.uSmeni,salon.kapacitetTermina);
+           const salon1=new Salon(salon.id,salon.naziv,salon.ukupnoTermina,salon.uSmeni,salon.kapacitetTermina);
             
             salon1.crtajSalon(document.body);
             salon1.termini.forEach(termin=>{
@@ -190,7 +192,7 @@ fetch("https://localhost:5001/Salon/PreuzmiSalone").then(p=>{
 
             salon1.smene.forEach(smena=>{
                 var s=salon1.smene[smena.broj-1];
-                    s.azurirajSmenu(smena.zaposleni);
+                    s.azurirajSmenu(smena.zaposleni,smena.brojSmene);
             });
 
         });

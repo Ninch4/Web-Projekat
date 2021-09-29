@@ -19,7 +19,7 @@ namespace KozmetickiSalon_back.Models
         [DataType("number")]
         public int UkupnoTermina { get; set; }
 
-        [Column("Usmeni")]
+        [Column("USmeni")]
         [DataType("number")]
         public int USmeni { get; set; }
 
